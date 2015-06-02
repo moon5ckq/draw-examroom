@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html{% block html_attribs %} lang="en"{% endblock html_attribs %}>
+  {%- block html %}
+  <head>
+    {%- block head %}
+    <meta charset="utf-8">
+    <title>{% block title %}{{title}}{% endblock title %}</title>
+    {%- block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {%- endblock meta %}
+    <script src="{{url_for('static', filename='js/jquery-2.0.3.min.js')}}"></script>
+    <!--<script src="/static/jquery-json.js"></script> -->
+    {%- block style %}
+    <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <link href="{{url_for('static', filename='css/buttons.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/sticky-footer.css')}}" rel="stylesheet">    
+    <!--
+    <link href="{{url_for('static', filename='css/mycss.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/font-awesome.min.css')}}" rel="stylesheet">
+    -->
+    <link rel="shortcut icon" href="/static/img/tsinghua-s.jpg" >
+    {%- block style_navbar_padding %}
+    <style>
+      body {
+      padding-top: 60px;
+      }
+    </style>
+    {%- endblock style_navbar_padding %}
+    {%- endblock style %}
+
+    {%- block favicons %}
+    {%- endblock favicons %}
+
+
+    {%- endblock head %}
+  </head>
+
+  <body>
+<div id="wrap">  
+    {%- block body %}
+    {%- block body_content %}
+    {%- endblock body_content %}
+    {%- block bootstrap_js_bottom %}
+    <script src="/static/js/bootstrap.min.js"></script>
+    {%- endblock bootstrap_js_bottom %}
+    {%- endblock body %}
+</div>
+<div id="footer">
+    <div class="container">
+        <p class="text-muted text-center credit">2015 清华大学入学申请测试——复试抽签</p>
+    </div>
+</div> 
+  </body>
+  {%- endblock html %}
+</html>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<div class="row" id="submit_form">
+<hr />
+<form class="form-horizontal" name="input" action="/login" method="post">
+    <div class="form-group">
+        <label class="col-lg-4 control-label"> 报名号 : </label>
+        <div class="col-lg-5">
+            <input class="form-control" type="text" name="username" placeholder="报名号"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-4 control-label"> 密码 : </label>
+        <div class="col-lg-5">
+            <input class="form-control" type="password" name="password" placeholder="密码"/>
+        </div>
+    </div>
+
+    <input class="btn btn-success btn-lg col-lg-5 col-lg-offset-4" value="登陆" name="ok" type="submit"/>
+</form>
+</div>
+{% endblock content%}

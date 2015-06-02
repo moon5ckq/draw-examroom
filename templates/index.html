@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content%}
+<hr/>
+
+<div class="row">
+    <div class="col-sm-3 col-xs-12" >
+        <div class="row">
+        <label class="col-sm-6 col-xs-6"> 姓名 : </label> {{user.name}}
+        </div>
+        <div class="row">        
+        <label class="col-sm-6 col-xs-6"> 报名号 : </label> {{user.user_id}}
+        </div>
+        <div class="row">   
+        <label class="col-sm-6 col-xs-6"> 身份证 : </label> {{user.idcard}}
+        </div>
+        <div class="row">   
+        <label class="col-sm-6 col-xs-6"> 省份 : </label> {{user.province}}
+        </div>
+        <div class="row">   
+        <label class="col-sm-6 col-xs-6"> 考试时间 : </label> {{user.time[0:2]}}日{{'上午'if user.time[3] == '1' else '下午'}}
+        </div>
+    </div>
+    <div class="col-sm-8 col-sm-offset-1 col-xs-12">
+{% if user.is_drawn %}
+<div class="row">
+    <label class="col-sm-3 col-xs-5"> 考场号 : </label>
+    <div class="col-sm-6 col-xs-7">
+        <input class="form-control" type="text" id="exam_id" name="exam_id" value="{{'%.2d'%user.exam_id}}"  disabled="disabled"/>
+    </div>
+</div>
+<div class="row">
+    <label class="col-sm-3 col-xs-5"> 座位号 : </label>
+    <div class="col-sm-6 col-xs-7">
+        <input class="form-control" type="text" id="seat_id" name="seat_id" value="{{'%.2d'%user.seat_id}}" disabled="disabled"/>
+    </div>
+</div>
+<br />
+
+</form>
+</div>
+{% else %}
+<div class="row">
+    <label class="col-sm-3 col-xs-5"> 考场号 : </label>
+    <div class="col-sm-6 col-xs-7">
+        <input class="form-control" type="text" id="exam_id" name="exam_id" value="??" disabled="disabled"/>
+    </div>
+</div>
+<div class="row">
+
+    <label class="col-sm-3 col-xs-5"> 座位号 : </label>
+    <div class="col-sm-6 col-xs-7">
+        <input class="form-control" type="text" id="seat_id" name="seat_id" value="??" disabled="disabled"/>
+    </div>
+</div>
+<br />
+<div class="col-sm-5 col-sm-offset-4 col-xs-12">
+
+    <input type="submit" class="btn btn-success btn-lg col-sm-12 col-xs-12" id="ok" value="抽签"/>
+
+</div>
+{% endif %}
+
+    </div>
+</div>
+
+
+
+<script>
+var alldataarr = [], max_num = 100;
+for (var i = 1; i < max_num; ++i)
+    alldataarr.push(pad(i, 2));
+    
+var timer, result = true, show_timer;
+function change(){
+  $('#exam_id').val(alldataarr[GetRnd(0,alldataarr.length)]);
+  $('#seat_id').val(alldataarr[GetRnd(0,alldataarr.length)]);
+}
+function start(){
+  clearInterval(timer);
+  if (result == true) {
+    timer = setInterval('change()', 30);
+    $('#ok').attr('disabled', 'disabled');
+    $.ajax({ url: '/draw', success: function(data) {
+      result = data;
+      show_timer = setInterval('show_result()', 1000);
+    }});
+  } else {
+    $('#exam_id').val(pad(result.exam_id, 2));
+    $('#seat_id').val(pad(result.seat_id, 2));
+    result = true;
+  }
+}
+function show_result() {
+    clearInterval(timer);    
+    $('#exam_id').val(pad(result.exam_id, 2));
+    $('#seat_id').val(pad(result.seat_id, 2));
+    $('#ok').remove();
+    clearInterval(show_timer);
+}
+function GetRnd(min, max){
+  return parseInt(Math.random()*(max-min));
+}
+function pad(num, n) {
+  var len = num.toString().length;
+  while(len < n) {
+    num = "0" + num;
+    len++;
+  } 
+  return num;
+}
+
+$('#ok').click(start);
+
+$(window).on('beforeunload', function(event) {    
+    var message = '请牢记自己的考场号与座位号！';
+    event.returnValue = message;
+    return message;
+});
+</script>
+{% endblock content%}
+
