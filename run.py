@@ -149,11 +149,11 @@ def createall(raw_data_path, room_set, passwd_list = None):
 
     db.session.commit()
 
-    _rset = rset
+    _rset = rset.copy()
     for k, user_list in user_list_d.items():
         result = {}
         _result = {}
-        rset = _rset
+        rset = _rset.copy()
         while len(user_list) > 0:
             u = user_list.pop(0)
             r = random_assign(rset, u)
