@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="col-sm-8 col-sm-offset-1 col-xs-12">
-{% if expire and user.is_drawn %}
+{% if expire or user.is_drawn %}
 <div class="row">
     <label class="col-sm-3 col-xs-5"> 考场号 : </label>
     <div class="col-sm-6 col-xs-7">
@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="row">
-    <label class="col-sm-3 col-xs-5"> 座位号 : </label>
+    <label class="col-sm-3 col-xs-5"> 顺序号 : </label>
     <div class="col-sm-6 col-xs-7">
         <input class="form-control" type="text" id="seat_id" name="seat_id" value="{{'%.2d'%user.seat_id}}" disabled="disabled"/>
     </div>
@@ -48,7 +48,7 @@
 </div>
 <div class="row">
 
-    <label class="col-sm-3 col-xs-5"> 座位号 : </label>
+    <label class="col-sm-3 col-xs-5"> 顺序号 : </label>
     <div class="col-sm-6 col-xs-7">
         <input class="form-control" type="text" id="seat_id" name="seat_id" value="??" disabled="disabled"/>
     </div>
@@ -113,7 +113,7 @@ function pad(num, n) {
 $('#ok').click(start);
 
 $(window).on('beforeunload', function(event) {    
-    var message = '请牢记自己的考场号与座位号！';
+    var message = '请牢记自己的考场号与顺序号！';
     event.returnValue = message;
     return message;
 });

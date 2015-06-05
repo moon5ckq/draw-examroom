@@ -78,10 +78,10 @@ def random_assign(rset, chose):
 @app.route('/')
 @login_required
 def index():
-    if datetime(2015,6,14,12,0) > datetime.now():
-        return render_template('index.html', user = current_user, info=u"抽签将于2015年6月14日，中午12点整截止", expire = False)
+    if datetime(2015,6,15,12,0) > datetime.now():
+        return render_template('index.html', user = current_user, info=u"抽签将于2015年6月15日，中午11点59分59秒截止", expire = False)
     else:
-        return render_template('index.html', user = current_user, msg=u"抽签已经截止", expire = True)
+        return render_template('index.html', user = current_user, msg=u"抽签已经截止%s"%(u"，系统已经为您抽好签" if not current_user.is_drawn else ""), expire = True)
         
 
 @login_manager.user_loader
