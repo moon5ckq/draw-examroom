@@ -14,6 +14,7 @@ import sys, random
 
 p = [u"河北省",u"山西省",u"辽宁省",u"吉林省",u"黑龙江省",u"江苏省",u"浙江省",u"安徽省",u"福建省",u"江西省",u"山东省",u"河南省",u"湖北省",u"湖南省",u"广东省",u"海南省",u"四川省",u"贵州省",u"云南省",u"陕西省",u"甘肃省",u"青海省",u"台湾省",u"内蒙古自治区",u"广西壮族自治区",u"西藏自治区",u"宁夏回族自治区",u"新疆维吾尔自治区",u"香港特别行政区",u"澳门特别行政区"]
 n = u"甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥"
+t = [u"综合面试", u"学科专业面试"]
 
 if __name__ == '__main__':
     count = int(sys.argv[1])
@@ -27,5 +28,7 @@ if __name__ == '__main__':
         exam_range = random.choice(['1-10', '11-20', '20-30'])
         seat_range = '1-30'
 
-        print ('%s,%s,%s,%s,%s,%s,%s' % (name,\
-            user_id, idcard, pro, tim, exam_range, seat_range)).encode('utf-8')
+        exam_type = random.choice(t)
+
+        print ('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (name,\
+            user_id, idcard, pro, tim, exam_range, seat_range, user_id, '12345678', exam_type)).encode('utf-8')

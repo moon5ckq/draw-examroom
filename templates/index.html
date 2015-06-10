@@ -18,6 +18,9 @@
         <label class="col-sm-6 col-xs-6"> 省份 : </label> {{user.province}}
         </div>
         <div class="row">   
+        <label class="col-sm-6 col-xs-6"> 复试类型 : </label> {{user.exam_type}}
+        </div>
+        <div class="row">   
         <label class="col-sm-6 col-xs-6"> 考试时间 : </label> {{user.time[0:2]}}日{{'上午'if user.time[3] == '1' else '下午'}}
         </div>
     </div>

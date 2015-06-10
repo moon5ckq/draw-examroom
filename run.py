@@ -32,24 +32,25 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
-
 class User(db.Model, UserMixin):
-  id = db.Column(db.Integer, primary_key = True)
-  name = db.Column(db.Text)
-  user_id = db.Column(db.Text)
-  passwd = db.Column(db.Text)
-  idcard = db.Column(db.Text)
-  province = db.Column(db.Text)
-  time = db.Column(db.Text)
-  exam_id_range = db.Column(db.Text, default='')
-  seat_id_range = db.Column(db.Text, default='')
-  exam_id = db.Column(db.Integer, default=-1)
-  seat_id = db.Column(db.Integer, default=-1)
-  is_drawn = db.Column(db.Integer, default=0)
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.Text)
+    user_id = db.Column(db.Text)
+    passwd = db.Column(db.Text)
+    idcard = db.Column(db.Text)
+    province = db.Column(db.Text)
+    time = db.Column(db.Text)
+    exam_id_range = db.Column(db.Text, default='')
+    seat_id_range = db.Column(db.Text, default='')
+    exam_id = db.Column(db.Integer, default=-1)
+    seat_id = db.Column(db.Integer, default=-1)
+    is_drawn = db.Column(db.Integer, default=0)
+    examid = db.Column(db.Text)
+    exam_type = db.Column(db.Text)
+  
 
-  def __repr__(self):
-    return '<User %d (%d, %d)>[%s; %s]'%(self.id, self.exam_id, self.seat_id, \
+    def __repr__(self):
+        return '<User %d (%d, %d)>[%s; %s]'%(self.id, self.exam_id, self.seat_id, \
             self.exam_id_range, self.seat_id_range)
 
 
@@ -133,13 +134,15 @@ def createall(raw_data_path, room_set, passwd_list = None):
         for line in f:
             r = line.decode('utf-8').strip().split(',')
             user = User(name = r[0],\
-                user_id = r[1],\
-                passwd = passwd_generator(),\
+                examid = r[1],\
+                passwd = r[8],\
                 idcard = r[2],\
                 province = r[3],\
                 time = r[4],\
                 exam_id_range = r[5],\
-                seat_id_range = r[6])
+                seat_id_range = r[6],\
+                user_id =  r[7],\
+                exam_type = r[9])
             db.session.add(user)
             db.session.flush()
 
@@ -184,11 +187,11 @@ def getresult(assign_result):
     "Get assign result"
     with open(assign_result, 'w') as f:
         for user in db.session.query(User).all():
-            print >>f, ('%s,%s,%s,%s,%s,%s,%s' % (\
-                    user.name, user.user_id, user.idcard, user.province,\
-                    user.time, user.exam_id, user.seat_id)).encode('utf-8')
-
-
+            print >>f, ('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (\
+                    user.name, user.examid, user.idcard, user.province,\
+                    user.time, user.exam_id_range, user.seat_id_range,\
+                    user.exam_id, user.seat_id, user.user_id, user.passwd,\
+                    user.exam_type)).encode('utf-8')
 
 if __name__ == '__main__':
     manager.run()
